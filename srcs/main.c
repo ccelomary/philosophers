@@ -6,11 +6,13 @@
 /*   By: mel-omar <mel-omar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/26 17:04:42 by mel-omar          #+#    #+#             */
-/*   Updated: 2021/04/26 17:18:17 by mel-omar         ###   ########.fr       */
+/*   Updated: 2021/04/27 17:28:32 by mel-omar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosophers.h"
+int					arguments[5];
+pthread_mutex_t 	*forks;
 
 void	set_arguments(int *arguments, int argc, char *argv[])
 {
@@ -24,16 +26,16 @@ void	set_arguments(int *arguments, int argc, char *argv[])
 	}
 }
 
+
 int		main(int argc, char *argv[])
 {
-	int			arguments[5];
+	pthread_t	*philosophers;
 
 	memset(arguments, 0, sizeof(int) * 5);
 	set_arguments(arguments, argc, argv);
-	printf("NUMBER OF PHILOSOPHERS %d\n", arguments[NUMBER_OF_PHILO]);
-	printf("TIME TO EAT %d\n", arguments[TIME_TO_EAT]);
-	printf("TIME TO DIE %d\n", arguments[TIME_TO_DIE]);
-	printf("TIME TO SLEEP %d\n", arguments[TIME_TO_SLEEP]);
-	printf("NUMBER OF TIME EACH PHILOSOPHER MUST EAT %d\n", arguments[NUMBER_MUST_EAT]);
+	forks = malloc(sizeof(pthread_mutex_t) * arguments[NUMBER_OF_PHILO]);
+	philosophers = malloc(sizeof(pthread_t) * arguments[NUMBER_OF_PHILO]);	
+	free(forks);
+	free(philosophers);
 	return (0);
 }
