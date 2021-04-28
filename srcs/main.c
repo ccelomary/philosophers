@@ -6,7 +6,7 @@
 /*   By: mel-omar <mel-omar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/26 17:04:42 by mel-omar          #+#    #+#             */
-/*   Updated: 2021/04/28 16:55:40 by mel-omar         ###   ########.fr       */
+/*   Updated: 2021/04/28 17:26:21 by mel-omar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,18 +32,16 @@ void	*check_function(void *data)
 	int		position;
 
 	position = *((int *)data);
-	printf("%lld %d is thinking\n", get_time() - time_program_start, position);
+	printf("%ld %d is thinking\n", get_time() - time_program_start, position);
 	pthread_mutex_lock(&forks[(position + 1) % arguments[NUMBER_OF_PHILO]]);
 	pthread_mutex_lock(&forks[position]);
 	printf("%ld %d has taken a fork\n", get_time() - time_program_start, position);
-	printf("%lld %d is eating\n", get_time() - time_program_start, position);
+	printf("%ld %d is eating\n", get_time() - time_program_start, position);
 	usleep(arguments[TIME_TO_EAT]);
 	pthread_mutex_unlock(&forks[position]);
 	pthread_mutex_unlock(&forks[(position + 1) % arguments[NUMBER_OF_PHILO]]);
-	time_program_start -= arguments[TIME_TO_EAT];
-	printf("%ld %ld %d is sleeping\n", get_time(), time_program_start, position);
+	printf("%ld %d is sleeping\n", get_time() - time_program_start, position);
 	usleep(arguments[TIME_TO_SLEEP]);
-	time_program_start -= arguments[TIME_TO_SLEEP];
 	return (NULL);
 }
 
@@ -52,7 +50,7 @@ long	get_time(void)
 	struct timeval	time;
 
 	gettimeofday(&time, NULL);
-	return (time.tv_usec);
+	return (time.tv_sec * 1000000 + time.tv_usec);
 }
 
 void	init_mutexes(pthread_mutex_t *mutexes)
