@@ -6,7 +6,7 @@
 /*   By: mel-omar <mel-omar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/26 17:04:42 by mel-omar          #+#    #+#             */
-/*   Updated: 2021/04/28 01:06:58 by mel-omar         ###   ########.fr       */
+/*   Updated: 2021/04/28 02:38:53 by mel-omar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,28 +31,24 @@ void	*check_function(void *data)
 {
 	int		position;
 
-	position = *(int *)data;
-	printf("PHILO %d thinking\n", position + 1);
-	if (!forks_locked[position])
-	{
-		forks_locked[position] = 1;
-		forks_locked[(position + 1) % arguments[NUMBER_OF_PHILO]] = 1;
-		pthread_mutex_lock(&forks[position]);
-		pthread_mutex_lock(&forks[(position + 1) % arguments[NUMBER_OF_PHILO]]);
-	}
-	printf("PHILO %d eats\n", position + 1);
-	usleep(600000);
+	position = *((int *)data);
+	printf("PHILO %d thinking\n", position);
+	pthread_mutex_lock(&forks[position]);
+	pthread_mutex_lock(&forks[(position + 1) % arguments[NUMBER_OF_PHILO]]);
+	printf("%d %d reseved for %d\n", position, (position + 1) % arguments[NUMBER_OF_PHILO], position);
+	printf("PHILO %d eats\n", position);
+	usleep(6000000);
 	pthread_mutex_unlock(&forks[position]);
 	pthread_mutex_unlock(&forks[(position + 1) % arguments[NUMBER_OF_PHILO]]);
-	forks_locked[position] = 0;
-	forks_locked[(position + 1) % arguments[NUMBER_OF_PHILO]] = 0;
-	printf("PHILP %d sleep\n", position + 1);
+	printf("%d %d leave for %d\n", position, (position + 1) % arguments[NUMBER_OF_PHILO], position);
+	printf("PHILP %d sleep\n", position);
 	usleep(15);
 	return (NULL);
 }
 int		main(int argc, char *argv[])
 {
 	pthread_t	*philosophers;
+	int			philo_id[5];
 	//int			i = 0;
 	memset(arguments, 0, sizeof(int) * 5);
 	set_arguments(arguments, argc, argv);
@@ -62,10 +58,11 @@ int		main(int argc, char *argv[])
 	philosophers = malloc(sizeof(pthread_t) * arguments[NUMBER_OF_PHILO]);
 	printf("NUMBER OF PHILSOPHERS %d\n", arguments[NUMBER_OF_PHILO]);
 	for (int i = 0; i < arguments[NUMBER_OF_PHILO]; i++)
-	{
-		pthread_create(&philosophers[i], NULL, check_function, &i);
+		philo_id[i] = i;
+	for (int i = 0; i < arguments[NUMBER_OF_PHILO]; i++)
+		pthread_create(&philosophers[i], NULL, check_function, &philo_id[i]);
+	for (int i = 0; i < arguments[NUMBER_OF_PHILO]; i++)
 		pthread_join(philosophers[i], NULL);
-	}
 	free(forks);
 	free(philosophers);
 	free(forks_locked);
