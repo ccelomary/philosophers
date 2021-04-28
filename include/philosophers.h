@@ -6,7 +6,7 @@
 /*   By: mel-omar <mel-omar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/26 16:55:07 by mel-omar          #+#    #+#             */
-/*   Updated: 2021/04/26 17:10:56 by mel-omar         ###   ########.fr       */
+/*   Updated: 2021/04/28 16:08:52 by mel-omar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <string.h>
+# include <sys/time.h>
 
 # define NUMBER_OF_PHILO 0
 # define TIME_TO_DIE 1
@@ -26,4 +27,5 @@
 		
 int			isdigits(char c);
 int			string2number(const char *string);
+long			get_time(void);
 #endif
