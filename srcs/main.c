@@ -6,7 +6,7 @@
 /*   By: mel-omar <mel-omar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/26 17:04:42 by mel-omar          #+#    #+#             */
-/*   Updated: 2021/04/28 17:26:21 by mel-omar         ###   ########.fr       */
+/*   Updated: 2021/04/29 15:55:26 by mel-omar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,16 @@
 int					arguments[5];
 long					time_program_start;
 pthread_mutex_t 	*forks;
+
+
+void	ft_putstr(const char *str)
+{
+	while (*str)
+	{
+		write(1, str, sizeof(char));
+		str++;
+	}
+}
 
 void	set_arguments(int *arguments, int argc, char *argv[])
 {
@@ -34,13 +44,14 @@ void	*check_function(void *data)
 	position = *((int *)data);
 	printf("%ld %d is thinking\n", get_time() - time_program_start, position);
 	pthread_mutex_lock(&forks[(position + 1) % arguments[NUMBER_OF_PHILO]]);
+	printf("%ld %d has taken a fork\n", get_time() - time_program_start, position);
 	pthread_mutex_lock(&forks[position]);
 	printf("%ld %d has taken a fork\n", get_time() - time_program_start, position);
 	printf("%ld %d is eating\n", get_time() - time_program_start, position);
 	usleep(arguments[TIME_TO_EAT]);
+	printf("%ld %d is sleeping\n", get_time() - time_program_start, position);
 	pthread_mutex_unlock(&forks[position]);
 	pthread_mutex_unlock(&forks[(position + 1) % arguments[NUMBER_OF_PHILO]]);
-	printf("%ld %d is sleeping\n", get_time() - time_program_start, position);
 	usleep(arguments[TIME_TO_SLEEP]);
 	return (NULL);
 }
@@ -76,8 +87,8 @@ int		main(int argc, char *argv[])
 	forks = malloc(sizeof(pthread_mutex_t) * arguments[NUMBER_OF_PHILO]);
 	philosophers = malloc(sizeof(pthread_t) * arguments[NUMBER_OF_PHILO]);
 	time_program_start = get_time();
-	printf("NUMBER OF PHILSOPHERS %d\n", arguments[NUMBER_OF_PHILO]);
-	printf("TIME TO EAT %d\n", arguments[TIME_TO_EAT]);
+	//printf("NUMBER OF PHILSOPHERS %d\n", arguments[NUMBER_OF_PHILO]);
+	//printf("TIME TO EAT %d\n", arguments[TIME_TO_EAT]);
 	init_mutexes(forks);
 	for (int i = 0; i < arguments[NUMBER_OF_PHILO]; i++)
 		philo_id[i] = i;
