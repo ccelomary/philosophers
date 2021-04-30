@@ -6,7 +6,7 @@
 /*   By: mel-omar <mel-omar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/26 17:04:42 by mel-omar          #+#    #+#             */
-/*   Updated: 2021/04/30 01:33:52 by mel-omar         ###   ########.fr       */
+/*   Updated: 2021/04/30 16:13:19 by mel-omar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ int		count_finished_philosophers(t_philosopher *ph)
 	counter = 0;
 	while (iter < g_global_var.arguments[NUMBER_OF_PHILO])
 	{
-		if (ph[iter].time_eat >= g_global_var.arguments[NUMBER_MUST_EAT])
+		if (ph[iter].time_eat >= g_global_var.arguments[NUMBER_MUST_EAT]
+		&& g_global_var.arguments[NUMBER_MUST_EAT])
 			counter++;
 		iter++;
 	}
@@ -67,8 +68,9 @@ void	*philosopher_function(void *philo)
 	t_philosopher	*ph;
 
 	ph = philo;
-	while (ph->time_eat < g_global_var.arguments[NUMBER_MUST_EAT]
-	&& !g_global_var.someone_died)
+	while ((ph->time_eat < g_global_var.arguments[NUMBER_MUST_EAT]
+		|| !g_global_var.arguments[NUMBER_MUST_EAT])
+		&& !g_global_var.someone_died)
 	{
 		think_statement(ph);
 		ph->state = THINKING;
@@ -114,11 +116,38 @@ void	wait4philosophers(t_philosopher *ph)
 		iter++;
 	}	
 }
+
+int		check4errors(int argc, char **argv)
+{
+	int		iterator;
+	int		nested_iter;
+
+	if (argc < 5 || argc > 6)
+		return (1);
+	iterator = 1;
+	while (iterator < argc)
+	{
+		nested_iter = 0;
+		while (argv[iterator][nested_iter])
+		{
+			if (!isdigits(argv[iterator][nested_iter]))
+				return (1);
+			nested_iter++;
+		}
+		iterator++;
+	}
+	return (0);
+}
+
 int		main(int argc, char *argv[])
 {
 	t_philosopher	*ph;
-	int				*philo_id;
 
+	if (check4errors(argc, argv))
+	{
+		ft_putstr("arguments error\n");
+		return (1);
+	}
 	init_global_var(argc, argv);
 	ph = init_philosophers();
 	run_philosophers(ph);
