@@ -6,7 +6,7 @@
 /*   By: mel-omar <mel-omar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/26 17:04:42 by mel-omar          #+#    #+#             */
-/*   Updated: 2021/04/30 01:23:58 by mel-omar         ###   ########.fr       */
+/*   Updated: 2021/04/30 01:31:08 by mel-omar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,7 @@ void	checker_state(t_philosopher *ph)
 			break ;
 		}
 		if (count_finished_philosophers(ph))
-		{
-			pthread_mutex_lock(&g_global_var.output_manger);
 			break ;
-		}
 	}
 }
 
@@ -106,6 +103,17 @@ void	run_philosophers(t_philosopher *ph)
 	}
 }
 
+void	wait4philosophers(t_philosopher *ph)
+{
+		int 	iter;
+
+	iter = 0;
+	while (iter < g_global_var.arguments[NUMBER_OF_PHILO])
+	{
+		pthread_join(ph[iter].thread, NULL);
+		iter++;
+	}	
+}
 int		main(int argc, char *argv[])
 {
 	t_philosopher	*ph;
