@@ -6,99 +6,117 @@
 /*   By: mel-omar <mel-omar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/26 17:04:42 by mel-omar          #+#    #+#             */
-/*   Updated: 2021/04/29 15:55:26 by mel-omar         ###   ########.fr       */
+/*   Updated: 2021/04/30 01:23:58 by mel-omar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosophers.h"
-int					arguments[5];
-long					time_program_start;
-pthread_mutex_t 	*forks;
 
 
-void	ft_putstr(const char *str)
+int		count_finished_philosophers(t_philosopher *ph)
 {
-	while (*str)
+	int		iter;
+	int		counter;
+
+	iter = 0;
+	counter = 0;
+	while (iter < g_global_var.arguments[NUMBER_OF_PHILO])
 	{
-		write(1, str, sizeof(char));
-		str++;
+		if (ph[iter].time_eat >= g_global_var.arguments[NUMBER_MUST_EAT])
+			counter++;
+		iter++;
+	}
+	return (counter);
+}
+
+int		check_someone_died(t_philosopher *ph)
+{
+	int		iter;
+	int		now;
+	iter = 0;
+	while (iter < g_global_var.arguments[NUMBER_OF_PHILO])
+	{
+		now = get_time() - ph[iter].last_time_eat;
+		if (ph[iter].state != EATING 
+		&& (g_global_var.arguments[TIME_TO_DIE] / 1000) <= now)
+		{
+			death_statement(&ph[iter]);
+			return (1);
+		}
+		iter++;
+	}
+	return (0);
+}
+
+void	checker_state(t_philosopher *ph)
+{
+	while (1)
+	{
+		if (check_someone_died(ph))
+		{
+			g_global_var.someone_died = 1;
+			break ;
+		}
+		if (count_finished_philosophers(ph))
+		{
+			pthread_mutex_lock(&g_global_var.output_manger);
+			break ;
+		}
 	}
 }
 
-void	set_arguments(int *arguments, int argc, char *argv[])
+void	*philosopher_function(void *philo)
 {
-	int		iterator;
+	t_philosopher	*ph;
 
-	iterator = 1;
-	while (iterator  < argc)
+	ph = philo;
+	while (ph->time_eat < g_global_var.arguments[NUMBER_MUST_EAT]
+	&& !g_global_var.someone_died)
 	{
-		arguments[iterator - 1] = string2number(argv[iterator]);
-		iterator++;
+		think_statement(ph);
+		ph->state = THINKING;
+		pthread_mutex_lock(&g_global_var.forks[ph->id]);
+		fork_statement(ph);
+		pthread_mutex_lock(&g_global_var.forks[(ph->id + 1)
+			% g_global_var.arguments[NUMBER_OF_PHILO]]);
+		fork_statement(ph);
+		eat_statement(ph);
+		ph->state = EATING;
+		ph->time_eat++;
+		usleep(g_global_var.arguments[TIME_TO_EAT]);
+		ph->last_time_eat = get_time();
+		sleep_statement(ph);
+		ph->state = SLEEPING;
+		pthread_mutex_unlock(&g_global_var.forks[ph->id]);
+		pthread_mutex_unlock(&g_global_var.forks[(ph->id + 1) % g_global_var.arguments[NUMBER_OF_PHILO]]);
+		usleep(g_global_var.arguments[TIME_TO_SLEEP]);
 	}
-}
-
-void	*check_function(void *data)
-{
-	int		position;
-
-	position = *((int *)data);
-	printf("%ld %d is thinking\n", get_time() - time_program_start, position);
-	pthread_mutex_lock(&forks[(position + 1) % arguments[NUMBER_OF_PHILO]]);
-	printf("%ld %d has taken a fork\n", get_time() - time_program_start, position);
-	pthread_mutex_lock(&forks[position]);
-	printf("%ld %d has taken a fork\n", get_time() - time_program_start, position);
-	printf("%ld %d is eating\n", get_time() - time_program_start, position);
-	usleep(arguments[TIME_TO_EAT]);
-	printf("%ld %d is sleeping\n", get_time() - time_program_start, position);
-	pthread_mutex_unlock(&forks[position]);
-	pthread_mutex_unlock(&forks[(position + 1) % arguments[NUMBER_OF_PHILO]]);
-	usleep(arguments[TIME_TO_SLEEP]);
 	return (NULL);
 }
 
-long	get_time(void)
+void	run_philosophers(t_philosopher *ph)
 {
-	struct timeval	time;
-
-	gettimeofday(&time, NULL);
-	return (time.tv_sec * 1000000 + time.tv_usec);
-}
-
-void	init_mutexes(pthread_mutex_t *mutexes)
-{
-	int		iter;
+	int 	iter;
 
 	iter = 0;
-	while (iter < arguments[NUMBER_OF_PHILO])
+	while (iter < g_global_var.arguments[NUMBER_OF_PHILO])
 	{
-		pthread_mutex_init(&mutexes[iter], NULL);
+		pthread_create(&ph[iter].thread, NULL, philosopher_function, &ph[iter]);
 		iter++;
 	}
 }
 
 int		main(int argc, char *argv[])
 {
-	pthread_t	*philosophers;
-	int			*philo_id;
-	//int			i = 0;
-	memset(arguments, 0, sizeof(int) * 5);
-	set_arguments(arguments, argc, argv);
-	philo_id = malloc(sizeof(int) * arguments[NUMBER_OF_PHILO]);
-	forks = malloc(sizeof(pthread_mutex_t) * arguments[NUMBER_OF_PHILO]);
-	philosophers = malloc(sizeof(pthread_t) * arguments[NUMBER_OF_PHILO]);
-	time_program_start = get_time();
-	//printf("NUMBER OF PHILSOPHERS %d\n", arguments[NUMBER_OF_PHILO]);
-	//printf("TIME TO EAT %d\n", arguments[TIME_TO_EAT]);
-	init_mutexes(forks);
-	for (int i = 0; i < arguments[NUMBER_OF_PHILO]; i++)
-		philo_id[i] = i;
-	//pthread_create(&philosophers[0], NULL, check_function, &philo_id[0]);
-	for (int i = 0; i < arguments[NUMBER_OF_PHILO]; i++)
-		pthread_create(&philosophers[i], NULL, check_function, &philo_id[i]);
-	for (int i = 0; i < arguments[NUMBER_OF_PHILO]; i++)
-		pthread_join(philosophers[i], NULL);
-	free(forks);
-	free(philosophers);
-	free(philo_id);
+	t_philosopher	*ph;
+	int				*philo_id;
+
+	init_global_var(argc, argv);
+	ph = init_philosophers();
+	run_philosophers(ph);
+	checker_state(ph);
+	pthread_mutex_unlock(&g_global_var.output_manger);
+	free(g_global_var.forks);
+	free(ph);
 	return (0);
 }
