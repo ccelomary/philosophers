@@ -6,7 +6,7 @@
 /*   By: mel-omar <mel-omar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/26 17:04:42 by mel-omar          #+#    #+#             */
-/*   Updated: 2021/04/30 01:33:52 by mel-omar         ###   ########.fr       */
+/*   Updated: 2021/05/02 20:20:14 by mel-omar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,10 +123,9 @@ int		main(int argc, char *argv[])
 	ph = init_philosophers();
 	run_philosophers(ph);
 	checker_state(ph);
-	if (g_global_var.someone_died)
-		pthread_mutex_unlock(&g_global_var.output_manger);
-	else
-		wait4philosophers(ph);
+	//if (g_global_var.someone_died)
+	//	pthread_mutex_unlock(&g_global_var.output_manger);
+	wait4philosophers(ph);
 	free(g_global_var.forks);
 	free(ph);
 	return (0);
