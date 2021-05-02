@@ -6,12 +6,17 @@
 /*   By: mel-omar <mel-omar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/26 17:04:42 by mel-omar          #+#    #+#             */
-/*   Updated: 2021/05/01 17:55:37 by mel-omar         ###   ########.fr       */
+/*   Updated: 2021/05/02 16:52:22 by mel-omar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosophers.h"
 
+
+long long 	difference_ab(long long a, long long b)
+{
+	return (a - b);
+}
 
 int		count_finished_philosophers(t_philosopher *ph)
 {
@@ -33,14 +38,11 @@ int		count_finished_philosophers(t_philosopher *ph)
 int		check_someone_died(t_philosopher *ph)
 {
 	int		iter;
-	int		now;
 
 	iter = 0;
 	while (iter < g_global_var.arguments[NUMBER_OF_PHILO])
 	{
-		now = get_time() - ph[iter].last_time_eat;
-		if (ph[iter].state != EATING 
-		&& ((g_global_var.arguments[TIME_TO_DIE] / 1000) <= now))
+		if (ph[iter].state != EATING  && difference_ab(get_time(), ph[iter].last_time_eat) >= g_global_var.arguments[TIME_TO_DIE])
 		{
 			death_statement(&ph[iter]);
 			return (1);
@@ -52,6 +54,7 @@ int		check_someone_died(t_philosopher *ph)
 
 void	checker_state(t_philosopher *ph)
 {
+	usleep(1000);
 	while (1)
 	{
 		if (check_someone_died(ph))
@@ -61,6 +64,7 @@ void	checker_state(t_philosopher *ph)
 		}
 		if (count_finished_philosophers(ph))
 			break ;
+		usleep(2000);
 	}
 }
 
@@ -89,12 +93,11 @@ void	*philosopher_function(void *philo)
 		pthread_mutex_lock(&g_global_var.forks[(ph->id + 1)
 			% g_global_var.arguments[NUMBER_OF_PHILO]]);
 		fork_statement(ph);
+		ph->last_time_eat = get_time();
 		ph->state = EATING;
 		eat_statement(ph);
-		ph->last_time_eat = get_time();
-		usleep(g_global_var.arguments[TIME_TO_EAT]);
 		ph->time_eat++;
-		//mysleep(g_global_var.arguments[TIME_TO_EAT]);
+		usleep(g_global_var.arguments[TIME_TO_EAT]);
 		sleep_statement(ph);
 		ph->state = SLEEPING;
 		pthread_mutex_unlock(&g_global_var.forks[ph->id]);

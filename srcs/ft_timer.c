@@ -6,16 +6,17 @@
 /*   By: mel-omar <mel-omar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 21:34:41 by mel-omar          #+#    #+#             */
-/*   Updated: 2021/05/01 17:40:35 by mel-omar         ###   ########.fr       */
+/*   Updated: 2021/05/02 16:07:29 by mel-omar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosophers.h"
 
-long	get_time(void)
+long long	get_time(void)
 {
-	struct timeval	time;
+	struct timeval			time;
+	long long				ret;
 
 	gettimeofday(&time, NULL);
-	return ((time.tv_sec * 1000000 + time.tv_usec * 1000) / 1000);
+	return (time.tv_sec * 1000 + time.tv_usec / 1000);
 }
