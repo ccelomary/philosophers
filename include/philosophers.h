@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mel-omar <mel-omar@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mel-omar <mel-omar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/26 16:55:07 by mel-omar          #+#    #+#             */
-/*   Updated: 2021/04/29 22:51:49 by mel-omar         ###   ########.fr       */
+/*   Updated: 2021/05/02 17:12:56 by mel-omar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <unistd.h>
 # include <string.h>
 # include <sys/time.h>
+# include <stdio.h> 
 # define NUMBER_OF_PHILO 0
 # define TIME_TO_DIE 1
 # define TIME_TO_EAT 2
@@ -34,35 +35,35 @@ typedef enum e_state
 
 typedef struct s_philosopher
 {
-	int			id;
-	int			time_eat;
-	int			last_time_eat;
-	pthread_t	thread;
-	t_state		state;
+	int							id;
+	int							time_eat;
+	long long					last_time_eat;
+	pthread_t					thread;
+	t_state						state;
 }				t_philosopher;
 
 struct s_global
 {
-	int					arguments[5];
-	int					program_start;
-	int					someone_died;
-	int					all_eat;
-	pthread_mutex_t		*forks;
-	pthread_mutex_t		output_manger;
-}						g_global_var;
+	long long							arguments[5];
+	long long							program_start;
+	int									someone_died;
+	int									all_eat;
+	pthread_mutex_t						*forks;
+	pthread_mutex_t						output_manger;
+}										g_global_var;
 
-int				isdigits(char c);
-int				string2number(const char *string);
-long			get_time(void);
-void			ft_putc(char c);
-void			ft_putnbr(unsigned int number);
-void			ft_putstr(const char *str);
-void			endl(void);
-void 			eat_statement(t_philosopher *philo);
-void 			think_statement(t_philosopher * philo);
-void 			sleep_statement(t_philosopher * philo);
-void 			fork_statement(t_philosopher * philo);
-void			init_global_var(int argc, char *argv[]);
-void 			death_statement(t_philosopher * philo);
-t_philosopher	*init_philosophers(void);
+int					isdigits(char c);
+int					string2number(const char *string);
+long long			get_time(void);
+void				ft_putc(char c);
+void				ft_putnbr(unsigned int number);
+void				ft_putstr(const char *str);
+void				endl(void);
+void 				eat_statement(t_philosopher *philo);
+void 				think_statement(t_philosopher * philo);
+void 				sleep_statement(t_philosopher * philo);
+void 				fork_statement(t_philosopher * philo);
+void				init_global_var(int argc, char *argv[]);
+void 				death_statement(t_philosopher * philo);
+t_philosopher		*init_philosophers(void);
 #endif

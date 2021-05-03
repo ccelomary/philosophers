@@ -6,7 +6,7 @@
 /*   By: mel-omar <mel-omar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 21:09:50 by mel-omar          #+#    #+#             */
-/*   Updated: 2021/04/30 01:20:44 by mel-omar         ###   ########.fr       */
+/*   Updated: 2021/05/02 23:18:07 by mel-omar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void	set_arguments(int argc, char *argv[])
 	iterator = 0;
 	while (++iterator < argc)
 		g_global_var.arguments[iterator - 1] = string2number(argv[iterator]);
-	g_global_var.arguments[TIME_TO_DIE] *= 1000;
 	g_global_var.arguments[TIME_TO_EAT] *= 1000;
 	g_global_var.arguments[TIME_TO_SLEEP] *= 1000;
 	
