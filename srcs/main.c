@@ -54,7 +54,6 @@ int		check_someone_died(t_philosopher *ph)
 
 void	checker_state(t_philosopher *ph)
 {
-	usleep(1000);
 	while (1)
 	{
 		if (check_someone_died(ph))
@@ -64,7 +63,6 @@ void	checker_state(t_philosopher *ph)
 		}
 		if (count_finished_philosophers(ph))
 			break ;
-		usleep(2000);
 	}
 }
 
@@ -87,21 +85,20 @@ void	*philosopher_function(void *philo)
 		&& !g_global_var.someone_died)
 	{
 		think_statement(ph);
-		ph->state = THINKING;
 		pthread_mutex_lock(&g_global_var.forks[ph->id]);
 		fork_statement(ph);
 		pthread_mutex_lock(&g_global_var.forks[(ph->id + 1)
 			% g_global_var.arguments[NUMBER_OF_PHILO]]);
-		fork_statement(ph);
-		ph->last_time_eat = get_time();
 		ph->state = EATING;
+		fork_statement(ph);
 		eat_statement(ph);
 		ph->time_eat++;
-		usleep(g_global_var.arguments[TIME_TO_EAT]);
-		sleep_statement(ph);
-		ph->state = SLEEPING;
+		usleep(g_global_var.arguments[TIME_TO_EAT] - 1000);
+		ph->last_time_eat = get_time() - (g_global_var.arguments[TIME_TO_EAT] / 1000);
 		pthread_mutex_unlock(&g_global_var.forks[ph->id]);
 		pthread_mutex_unlock(&g_global_var.forks[(ph->id + 1) % g_global_var.arguments[NUMBER_OF_PHILO]]);
+		ph->state = SLEEPING;
+		sleep_statement(ph);
 		usleep(g_global_var.arguments[TIME_TO_SLEEP]);
 	}
 	return (NULL);
