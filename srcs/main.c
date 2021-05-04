@@ -6,7 +6,7 @@
 /*   By: mel-omar <mel-omar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/26 17:04:42 by mel-omar          #+#    #+#             */
-/*   Updated: 2021/05/02 23:25:57 by mel-omar         ###   ########.fr       */
+/*   Updated: 2021/05/03 21:58:40 by mel-omar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,16 @@ int		check_someone_died(t_philosopher *ph)
 {
 	int		iter;
 
-	iter = 0;
-	while (iter < g_global_var.arguments[NUMBER_OF_PHILO])
+	iter = -1;
+	while (++iter < g_global_var.arguments[NUMBER_OF_PHILO])
 	{
-		if (ph[iter].state != EATING  && difference_ab(get_time(), ph[iter].last_time_eat) >= g_global_var.arguments[TIME_TO_DIE])
+		pthread_mutex_lock(&ph[iter].is_eating);
+		if (ph[iter].state != EATING && difference_ab(get_time(), ph[iter].last_time_eat) > g_global_var.arguments[TIME_TO_DIE])
 		{
 			death_statement(&ph[iter]);
 			return (1);
 		}
-		iter++;
+		pthread_mutex_unlock(&ph[iter].is_eating);
 	}
 	return (0);
 }
@@ -66,15 +67,6 @@ void	checker_state(t_philosopher *ph)
 	}
 }
 
-void	mysleep(int timer)
-{
-	int start;
-
-	start = get_time();
-	usleep(timer - 200000);
-	while (get_time() - start <= timer);
-}
-
 void	*philosopher_function(void *philo)
 {
 	t_philosopher	*ph;
@@ -85,21 +77,21 @@ void	*philosopher_function(void *philo)
 		&& !g_global_var.someone_died)
 	{
 		think_statement(ph);
-		ph->state = THINKING;
 		pthread_mutex_lock(&g_global_var.forks[ph->id]);
 		fork_statement(ph);
 		pthread_mutex_lock(&g_global_var.forks[(ph->id + 1)
 			% g_global_var.arguments[NUMBER_OF_PHILO]]);
 		fork_statement(ph);
-		ph->state = EATING;
+		pthread_mutex_lock(&ph->is_eating);
 		eat_statement(ph);
 		ph->time_eat++;
-		ph->last_time_eat = get_time();
-		usleep(g_global_var.arguments[TIME_TO_EAT] - 1000);
+		usleep(g_global_var.arguments[TIME_TO_EAT]);
+		ph->last_time_eat = get_time() - (g_global_var.arguments[TIME_TO_EAT] / 1000);
+		pthread_mutex_unlock(&ph->is_eating);
 		pthread_mutex_unlock(&g_global_var.forks[ph->id]);
 		pthread_mutex_unlock(&g_global_var.forks[(ph->id + 1) % g_global_var.arguments[NUMBER_OF_PHILO]]);
-		sleep_statement(ph);
 		ph->state = SLEEPING;
+		sleep_statement(ph);
 		usleep(g_global_var.arguments[TIME_TO_SLEEP]);
 	}
 	return (NULL);
@@ -109,12 +101,9 @@ void	run_philosophers(t_philosopher *ph)
 {
 	int 	iter;
 
-	iter = 0;
-	while (iter < g_global_var.arguments[NUMBER_OF_PHILO])
-	{
+	iter = -1;
+	while (++iter < g_global_var.arguments[NUMBER_OF_PHILO])
 		pthread_create(&ph[iter].thread, NULL, philosopher_function, &ph[iter]);
-		iter++;
-	}
 }
 
 void	wait4philosophers(t_philosopher *ph)

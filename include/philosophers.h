@@ -6,7 +6,7 @@
 /*   By: mel-omar <mel-omar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/26 16:55:07 by mel-omar          #+#    #+#             */
-/*   Updated: 2021/05/02 17:12:56 by mel-omar         ###   ########.fr       */
+/*   Updated: 2021/05/03 16:33:07 by mel-omar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_philosopher
 	long long					last_time_eat;
 	pthread_t					thread;
 	t_state						state;
+	pthread_mutex_t				is_eating;
 }				t_philosopher;
 
 struct s_global
