@@ -6,7 +6,7 @@
 /*   By: mel-omar <mel-omar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/26 16:55:07 by mel-omar          #+#    #+#             */
-/*   Updated: 2021/05/03 16:33:07 by mel-omar         ###   ########.fr       */
+/*   Updated: 2021/05/25 12:52:38 by mel-omar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,6 @@ typedef enum e_state
 	EATING
 }			t_state;
 
-typedef struct s_philosopher
-{
-	int							id;
-	int							time_eat;
-	long long					last_time_eat;
-	pthread_t					thread;
-	t_state						state;
-	pthread_mutex_t				is_eating;
-}				t_philosopher;
-
 struct s_global
 {
 	long long							arguments[5];
@@ -51,7 +41,20 @@ struct s_global
 	int									all_eat;
 	pthread_mutex_t						*forks;
 	pthread_mutex_t						output_manger;
-}										g_global_var;
+	pthread_mutex_t						protect_forks;
+};
+typedef struct s_philosopher
+{
+	int							id;
+	int							time_eat;
+	long long					last_time_eat;
+	pthread_t					thread;
+	t_state						state;
+	pthread_mutex_t				is_eating;
+	struct s_global				*shared_data;
+}				t_philosopher;
+
+
 
 int					isdigits(char c);
 int					string2number(const char *string);
@@ -64,7 +67,7 @@ void 				eat_statement(t_philosopher *philo);
 void 				think_statement(t_philosopher * philo);
 void 				sleep_statement(t_philosopher * philo);
 void 				fork_statement(t_philosopher * philo);
-void				init_global_var(int argc, char *argv[]);
+void				init_global_var(struct s_global *sd, int argc, char *argv[]);
 void 				death_statement(t_philosopher * philo);
-t_philosopher		*init_philosophers(void);
+t_philosopher		*init_philosophers(struct s_global *sd);
 #endif
