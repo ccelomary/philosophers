@@ -6,12 +6,11 @@
 /*   By: mel-omar <mel-omar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/26 17:04:42 by mel-omar          #+#    #+#             */
-/*   Updated: 2021/05/03 16:35:53 by mel-omar         ###   ########.fr       */
+/*   Updated: 2021/05/25 10:03:00 by mel-omar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosophers.h"
-
 
 long long 	difference_ab(long long a, long long b)
 {
