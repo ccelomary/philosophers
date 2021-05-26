@@ -3,23 +3,30 @@
 #include <time.h>
 #include <unistd.h>
 #include <string.h>
+#include <semaphore.h>
 
-void print_str(char *s)
+sem_t *semaphore;
+
+void	*routine(void *th)
 {
-	write(1, s, sizeof(char) * strlen(s));
+	printf("\nbefore\n");
+	sem_wait(semaphore);
+	printf("sem enter\n");
+	usleep((unsigned long)100000000);
+	printf("sem out\n");
+	sem_post(semaphore);
+	return (NULL);
 }
-
-pthread_mutex_t mutex;
 
 int	main(void)
 {
-	pthread_t thread[3];
-	int id[3] = {0, 1, 2};
-	pthread_mutex_init(&mutex, 0);
-	pthread_mutex_lock(&mutex);
-	sleep(20);
-	print_str("inside\n");
-	pthread_mutex_unlock(&mutex);
-	print_str("outside\n");
+	pthread_t t1, t2;
+	sem_unlink("sem/philo_two");
+	semaphore = sem_open("sem/philo_two", O_CREAT, 0644, 1);
+	pthread_create(&t1, NULL, routine, NULL);
+	pthread_create(&t2, NULL, routine, NULL);
+	printf("blabla bla\n");
+	pthread_join(t1, NULL);
+	pthread_join(t2, NULL);
 	return (0);
 }

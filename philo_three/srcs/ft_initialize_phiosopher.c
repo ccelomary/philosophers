@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_initialize_phiosopher.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mel-omar <mel-omar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mel-omar <mel-omar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 21:23:26 by mel-omar          #+#    #+#             */
-/*   Updated: 2021/05/25 13:55:59 by mel-omar         ###   ########.fr       */
+/*   Updated: 2021/05/26 16:15:04 by mel-omar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void		init_philosopher(t_philosopher *philo, int id, struct s_global *shared_dat
 	philo->time_eat = 0;
 	philo->last_time_eat = get_time();
 	philo->state = THINKING;
-	pthread_mutex_init(&philo->is_eating, NULL);
 	philo->shared_data = shared_data;
 }
 

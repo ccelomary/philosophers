@@ -5,25 +5,28 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mel-omar <mel-omar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/26 16:55:07 by mel-omar          #+#    #+#             */
-/*   Updated: 2021/05/26 16:00:24 by mel-omar         ###   ########.fr       */
+/*   Created: 2021/05/26 15:22:05 by mel-omar          #+#    #+#             */
+/*   Updated: 2021/05/26 16:20:14 by mel-omar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILOSOPHERS_H
 # define PHILOSOPHERS_H
-
 # include <pthread.h>
 # include <stdlib.h>
 # include <unistd.h>
-# include <sys/time.h>
+# include <semaphore.h>
 # include <string.h>
+# include <sys/time.h>
 
 # define NUMBER_OF_PHILO 0
 # define TIME_TO_DIE 1
 # define TIME_TO_EAT 2
 # define TIME_TO_SLEEP 3
 # define NUMBER_MUST_EAT 4
+# define FORKS_NAME "sem/forks"
+# define OUTPUT_MANAGER_NAME "sem/out_manager"
+# define PROTECT_FORKS_NAME "sem/proctect_forks"
 
 typedef enum e_state
 {
@@ -38,8 +41,9 @@ struct s_global
 	long long							program_start;
 	int									someone_died;
 	int									all_eat;
-	pthread_mutex_t						*forks;
-	pthread_mutex_t						output_manger;
+	sem_t                               *forks;
+	sem_t						        *output_manger;
+    sem_t                               *protect_forks;
 };
 
 typedef struct s_philosopher
@@ -49,11 +53,9 @@ typedef struct s_philosopher
 	long long					last_time_eat;
 	pthread_t					thread;
 	t_state						state;
-	pthread_mutex_t				is_eating;
+	sem_t                       *is_eating;
 	struct s_global				*shared_data;
-}				t_philosopher;
-
-
+}				                t_philosopher;
 
 int					isdigits(char c);
 int					string2number(const char *string);

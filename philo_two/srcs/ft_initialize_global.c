@@ -6,7 +6,7 @@
 /*   By: mel-omar <mel-omar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 21:09:50 by mel-omar          #+#    #+#             */
-/*   Updated: 2021/05/26 16:14:28 by mel-omar         ###   ########.fr       */
+/*   Updated: 2021/05/26 16:21:08 by mel-omar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,25 +23,17 @@ void	set_arguments(struct s_global *shared_data, int argc, char *argv[])
 	shared_data->arguments[TIME_TO_SLEEP] *= 1000;
 }
 
-void	init_forks(struct s_global *shared_data, pthread_mutex_t *mutexes)
-{
-	int		iter;
-
-	iter = 0;
-	while (iter < shared_data->arguments[NUMBER_OF_PHILO])
-	{
-		pthread_mutex_init(&mutexes[iter], NULL);
-		iter++;
-	}
-}
 
 void			init_global_var(struct s_global *shared_data, int argc, char *argv[])
 {
 	memset(shared_data->arguments, 0, sizeof(int) * 5);
 	set_arguments(shared_data, argc, argv);
-	shared_data->forks = malloc(sizeof(pthread_mutex_t) * (shared_data->arguments[NUMBER_OF_PHILO]));
-	init_forks(shared_data, shared_data->forks);
-	pthread_mutex_init(&shared_data->output_manger, NULL);
+	sem_unlink(FORKS_NAME);
+	sem_unlink(OUTPUT_MANAGER_NAME);
+	sem_unlink(PROTECT_FORKS_NAME);
+	shared_data->forks = sem_open(FORKS_NAME, O_CREAT, 0644, shared_data->arguments[NUMBER_OF_PHILO]);
+	shared_data->output_manger = sem_open(OUTPUT_MANAGER_NAME, O_CREAT, 0644, 1);
+	shared_data->protect_forks = sem_open(PROTECT_FORKS_NAME, O_CREAT, 0644, 1);
 	shared_data->program_start = get_time();
 	shared_data->someone_died = 0;
 	shared_data->all_eat = 0;

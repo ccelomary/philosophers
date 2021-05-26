@@ -6,7 +6,7 @@
 /*   By: mel-omar <mel-omar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/26 17:04:42 by mel-omar          #+#    #+#             */
-/*   Updated: 2021/05/26 15:13:45 by mel-omar         ###   ########.fr       */
+/*   Updated: 2021/05/26 16:18:58 by mel-omar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ int		main(int argc, char *argv[])
 	checker_state(ph);
 	if (!shared_data->someone_died)
 		wait4philosophers(ph);
-	free(shared_data->forks);
 	free(ph);
 	free(shared_data);
 	return (0);
