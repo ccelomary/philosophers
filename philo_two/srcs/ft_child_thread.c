@@ -6,7 +6,7 @@
 /*   By: mel-omar <mel-omar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/25 14:13:13 by mel-omar          #+#    #+#             */
-/*   Updated: 2021/05/27 15:04:14 by mel-omar         ###   ########.fr       */
+/*   Updated: 2021/05/27 16:12:33 by mel-omar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	max(int index1, int index2)
 	return (index2);
 }
 
-static void	init_variables(t_philosopher *ph, int ueat_sleep[2])
+static void	init_variables(t_philosopher *ph, long long ueat_sleep[2])
 {
 	sem_wait(ph->shared_data->protect_forks);
 	ueat_sleep[0] = ph->shared_data->arguments[TIME_TO_EAT];

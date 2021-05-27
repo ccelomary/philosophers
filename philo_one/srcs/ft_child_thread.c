@@ -6,7 +6,7 @@
 /*   By: mel-omar <mel-omar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/25 14:13:13 by mel-omar          #+#    #+#             */
-/*   Updated: 2021/05/27 14:37:14 by mel-omar         ###   ########.fr       */
+/*   Updated: 2021/05/27 16:17:03 by mel-omar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ int	max(int index1, int index2)
 	return (index2);
 }
 
-static void	init_variables(t_philosopher *ph, int minmax[2], int ueat_sleep[2])
+static void	init_variables(t_philosopher *ph,
+	int minmax[2], long long ueat_sleep[2])
 {
 	minmax[0] = min(ph->id, (ph->id + 1)
 			% ph->shared_data->arguments[NUMBER_OF_PHILO]);
