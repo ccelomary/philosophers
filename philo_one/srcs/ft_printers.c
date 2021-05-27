@@ -6,7 +6,7 @@
 /*   By: mel-omar <mel-omar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 21:35:35 by mel-omar          #+#    #+#             */
-/*   Updated: 2021/04/29 22:43:01 by mel-omar         ###   ########.fr       */
+/*   Updated: 2021/05/27 14:41:55 by mel-omar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	ft_putnbr(unsigned int number)
 {
 	if (number / 10)
 		ft_putnbr(number / 10);
-	ft_putc((number % 10) + 48);	
+	ft_putc((number % 10) + 48);
 }
 
 void	ft_putstr(const char *str)

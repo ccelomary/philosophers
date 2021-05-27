@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   string2number.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mel-omar <mel-omar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mel-omar <mel-omar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/26 16:58:39 by mel-omar          #+#    #+#             */
-/*   Updated: 2021/05/02 14:49:06 by mel-omar         ###   ########.fr       */
+/*   Updated: 2021/05/27 15:09:20 by mel-omar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ int	isdigits(char c)
 	return (0);
 }
 
-unsigned long long		string2number(const char *string)
+unsigned long long	string2number(const char *string)
 {
 	unsigned long long	number;
-	int			sign;
+	int					sign;
 
 	number = 0;
 	sign = 1;

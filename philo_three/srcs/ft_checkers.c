@@ -6,19 +6,59 @@
 /*   By: mel-omar <mel-omar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/25 14:05:12 by mel-omar          #+#    #+#             */
-/*   Updated: 2021/05/26 21:16:05 by mel-omar         ###   ########.fr       */
+/*   Updated: 2021/05/27 15:48:56 by mel-omar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosophers.h"
 
-long long 	difference_ab(long long a, long long b)
+long long	difference_ab(long long a, long long b)
 {
 	return (a - b);
 }
 
-void	check_time(t_philosopher *ph, long long t, long long duration, int type)
+void	check_time(t_philosopher *ph, long long t,
+	long long duration, int type)
 {
 	usleep(ph->shared_data->arguments[type] - 30000);
-	while ((get_time() - t) * 1000 < duration);
+	while ((get_time() - t) * 1000 < duration)
+		;
+}
+
+void	check_philosopher(t_philosopher *ph)
+{
+	while (1)
+	{
+		if (ph->state != EATING
+			&& difference_ab(get_time(), ph->last_time_eat)
+			> ph->shared_data->arguments[TIME_TO_DIE])
+		{
+			death_statement(ph);
+			exit(DEAD);
+		}
+		if (ph->time_eat >= ph->shared_data->arguments[NUMBER_MUST_EAT]
+			&& ph->shared_data->arguments[NUMBER_MUST_EAT] != 0)
+		{
+			pthread_join(ph->thread, NULL);
+			exit(DONE);
+		}
+		usleep(1000);
+	}	
+}
+
+void	wait4process(t_philosopher *ph)
+{
+	int		status;
+	int		iter;
+
+	waitpid(-1, &status, 0);
+	if (WIFEXITED(status))
+	{
+		if (WEXITSTATUS(status) == DEAD)
+		{
+			iter = -1;
+			while (++iter < ph->shared_data->arguments[NUMBER_OF_PHILO])
+				kill(ph[iter].pid, SIGKILL);
+		}
+	}
 }

@@ -6,16 +6,16 @@
 /*   By: mel-omar <mel-omar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/26 17:04:42 by mel-omar          #+#    #+#             */
-/*   Updated: 2021/05/26 21:18:38 by mel-omar         ###   ########.fr       */
+/*   Updated: 2021/05/27 15:46:09 by mel-omar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosophers.h"
-
+#include <stdio.h>
 
 void	wait4philosophers(t_philosopher *ph)
 {
-		int 	iter;
+	int	iter;
 
 	iter = 0;
 	while (iter < ph->shared_data->arguments[NUMBER_OF_PHILO])
@@ -27,36 +27,25 @@ void	wait4philosophers(t_philosopher *ph)
 
 void	run_philosophers(t_philosopher *ph)
 {
-	int 	iter;
-	pid_t	pid;
+	int	iter;
 
 	iter = -1;
 	while (++iter < ph->shared_data->arguments[NUMBER_OF_PHILO])
 	{
-		pid = fork();
-		if (pid == 0)
+		ph[iter].pid = fork();
+		if (ph[iter].pid == 0)
 		{
-			pthread_create(&ph[iter].thread, NULL, philosopher_function, &ph[iter]);
-			while (1)
-			{
-				if (ph[iter].time_eat >= ph[iter].shared_data->arguments[NUMBER_MUST_EAT]
-				&& ph[iter].shared_data->arguments[NUMBER_MUST_EAT] != 0)
-				{
-					exit(DONE);
-				}
-				if (ph[iter].state != EATING
-				&&  difference_ab(get_time(), ph[iter].last_time_eat) > ph->shared_data->arguments[TIME_TO_DIE])
-				{
-					death_statement(&ph[iter]);
-					exit(DEAD);
-				}
-			}
+			pthread_create(&ph[iter].thread,
+				NULL, philosopher_function, &ph[iter]);
+			check_philosopher(ph + iter);
 		}
 	}
-
+	iter = -1;
+	while (++iter < ph->shared_data->arguments[NUMBER_OF_PHILO])
+		wait4process(ph);
 }
 
-int		main(int argc, char *argv[])
+int	main(int argc, char *argv[])
 {
 	t_philosopher		*ph;
 	struct s_global		*shared_data;

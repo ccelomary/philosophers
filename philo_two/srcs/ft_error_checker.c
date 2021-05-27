@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_error_checker.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mel-omar <mel-omar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mel-omar <mel-omar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/25 14:22:02 by mel-omar          #+#    #+#             */
-/*   Updated: 2021/05/25 14:25:33 by mel-omar         ###   ########.fr       */
+/*   Updated: 2021/05/27 14:57:58 by mel-omar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include//philosophers.h"
+#include "../include/philosophers.h"
 
-int		check4errors(int argc, char **argv)
+int	check4errors(int argc, char **argv)
 {
 	int		iterator;
 	int		nested_iter;

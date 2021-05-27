@@ -6,7 +6,7 @@
 /*   By: mel-omar <mel-omar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 21:36:42 by mel-omar          #+#    #+#             */
-/*   Updated: 2021/05/26 16:10:26 by mel-omar         ###   ########.fr       */
+/*   Updated: 2021/05/27 15:07:54 by mel-omar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void 	eat_statement(t_philosopher *philo)
 	sem_post(philo->shared_data->output_manger);
 }
 
-void 	think_statement(t_philosopher * philo)
+void 	think_statement(t_philosopher *philo)
 {
 	sem_wait(philo->shared_data->output_manger);
 	ft_putnbr(get_time() - philo->shared_data->program_start);
@@ -34,7 +34,7 @@ void 	think_statement(t_philosopher * philo)
 	sem_post(philo->shared_data->output_manger);
 }
 
-void 	sleep_statement(t_philosopher * philo)
+void 	sleep_statement(t_philosopher *philo)
 {
 	sem_wait(philo->shared_data->output_manger);
 	ft_putnbr(get_time() - philo->shared_data->program_start);
@@ -45,7 +45,7 @@ void 	sleep_statement(t_philosopher * philo)
 	sem_post(philo->shared_data->output_manger);
 }
 
-void 	fork_statement(t_philosopher * philo)
+void 	fork_statement(t_philosopher *philo)
 {
 	sem_wait(philo->shared_data->output_manger);
 	ft_putnbr(get_time() - philo->shared_data->program_start);
