@@ -6,11 +6,12 @@
 /*   By: mel-omar <mel-omar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/25 14:22:02 by mel-omar          #+#    #+#             */
-/*   Updated: 2021/05/27 14:39:11 by mel-omar         ###   ########.fr       */
+/*   Updated: 2021/05/27 17:01:34 by mel-omar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosophers.h"
+
 
 int	check4errors(int argc, char **argv)
 {

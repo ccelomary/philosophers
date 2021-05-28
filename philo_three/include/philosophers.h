@@ -6,7 +6,7 @@
 /*   By: mel-omar <mel-omar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/26 15:22:05 by mel-omar          #+#    #+#             */
-/*   Updated: 2021/05/27 15:36:12 by mel-omar         ###   ########.fr       */
+/*   Updated: 2021/05/27 16:50:45 by mel-omar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ typedef struct s_philosopher
 int					isdigits(char c);
 int					string2number(const char *string);
 long long			difference_ab(long long a, long long b);
+void				ft_print_error(const char *s);
 long long			get_time(void);
 void				ft_putc(char c);
 void				ft_putnbr(unsigned int number);

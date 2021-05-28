@@ -6,7 +6,7 @@
 /*   By: mel-omar <mel-omar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/26 17:04:42 by mel-omar          #+#    #+#             */
-/*   Updated: 2021/05/27 16:18:13 by mel-omar         ###   ########.fr       */
+/*   Updated: 2021/05/28 18:43:57 by mel-omar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@ void	run_philosophers(t_philosopher *ph)
 
 	iter = -1;
 	while (++iter < ph->shared_data->arguments[NUMBER_OF_PHILO])
+	{
 		pthread_create(&ph[iter].thread, NULL, philosopher_function, &ph[iter]);
+		usleep(100);
+	}
 }
 
 void	wait4philosophers(t_philosopher *ph)
@@ -41,7 +44,7 @@ int	main(int argc, char *argv[])
 	shared_data = malloc(sizeof(struct s_global));
 	if (check4errors(argc, argv))
 	{
-		ft_putstr("arguments error\n");
+		ft_print_error("arguments error\n");
 		return (1);
 	}
 	init_global_var(shared_data, argc, argv);

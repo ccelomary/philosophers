@@ -6,7 +6,7 @@
 /*   By: mel-omar <mel-omar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/26 16:55:07 by mel-omar          #+#    #+#             */
-/*   Updated: 2021/05/27 14:24:45 by mel-omar         ###   ########.fr       */
+/*   Updated: 2021/05/28 16:32:49 by mel-omar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ struct s_global
 	int									all_eat;
 	pthread_mutex_t						*forks;
 	pthread_mutex_t						output_manger;
+	pthread_mutex_t						protect_forks;
 };
 
 typedef struct s_philosopher
@@ -54,9 +55,11 @@ typedef struct s_philosopher
 }				t_philosopher;
 
 int					isdigits(char c);
-int					string2number(const char *string);
+long long			string2number(const char *string);
 long long			get_time(void);
+long long			convert(long long micors);
 void				ft_putc(char c);
+void				ft_print_error(const char *s);
 void				ft_putnbr(unsigned int number);
 void				ft_putstr(const char *str);
 void				endl(void);
@@ -64,7 +67,7 @@ void				eat_statement(t_philosopher *philo);
 void				think_statement(t_philosopher *philo);
 void				sleep_statement(t_philosopher *philo);
 void				fork_statement(t_philosopher *philo);
-void				init_global_var(struct s_global *sd,
+int					init_global_var(struct s_global *sd,
 						int argc, char *argv[]);
 void				death_statement(t_philosopher *philo);
 t_philosopher		*init_philosophers(struct s_global *sd);

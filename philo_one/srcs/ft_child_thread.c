@@ -6,7 +6,7 @@
 /*   By: mel-omar <mel-omar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/25 14:13:13 by mel-omar          #+#    #+#             */
-/*   Updated: 2021/05/27 16:17:03 by mel-omar         ###   ########.fr       */
+/*   Updated: 2021/05/28 18:25:10 by mel-omar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	eating_operation(t_philosopher *ph, long long eat_time)
 	eat_statement(ph);
 	ph->time_eat++;
 	ph->last_time_eat = get_time();
-	check_time(ph, get_time(), eat_time, TIME_TO_EAT);
+	check_time(ph, ph->last_time_eat, eat_time, TIME_TO_EAT);
 }
 
 int	min(int index1, int index2)
@@ -44,6 +44,7 @@ static void	init_variables(t_philosopher *ph,
 			% ph->shared_data->arguments[NUMBER_OF_PHILO]);
 	ueat_sleep[0] = ph->shared_data->arguments[TIME_TO_EAT];
 	ueat_sleep[1] = ph->shared_data->arguments[TIME_TO_SLEEP];
+	//pthread_mutex_lock(&ph->shared_data->protect_forks);
 }
 
 void	*philosopher_function(void *philo)
@@ -60,16 +61,23 @@ void	*philosopher_function(void *philo)
 	{
 		ph->state = THINKING;
 		think_statement(ph);
-		pthread_mutex_lock(&ph->shared_data->forks[minmax[0]]);
+		pthread_mutex_lock(&ph->shared_data->forks[ph->id]);
 		fork_statement(ph);
-		pthread_mutex_lock(&ph->shared_data->forks[minmax[1]]);
+		pthread_mutex_lock(&ph->shared_data->forks[(ph->id + 1) % ph->shared_data->arguments[NUMBER_OF_PHILO]]);
+		//pthread_mutex_unlock(&ph->shared_data->protect_forks);
 		fork_statement(ph);
 		eating_operation(ph, ueat_sleep[0]);
-		pthread_mutex_unlock(&ph->shared_data->forks[minmax[1]]);
-		pthread_mutex_unlock(&ph->shared_data->forks[minmax[0]]);
-		ph->state = SLEEPING;
 		sleep_statement(ph);
+		pthread_mutex_unlock(&ph->shared_data->forks[(ph->id + 1) % ph->shared_data->arguments[NUMBER_OF_PHILO]]);
+		pthread_mutex_unlock(&ph->shared_data->forks[ph->id]);
+		ph->state = SLEEPING;
 		check_time(ph, get_time(), ueat_sleep[1], TIME_TO_SLEEP);
 	}
+	//pthread_mutex_unlock(&ph->shared_data->protect_forks);
 	return (NULL);
 }
+/*
+			//1 -> 0, 1
+			2 -> 1, 2
+			3, -> 2, 3 > 0
+*/

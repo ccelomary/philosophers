@@ -6,7 +6,7 @@
 /*   By: mel-omar <mel-omar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/25 14:05:12 by mel-omar          #+#    #+#             */
-/*   Updated: 2021/05/27 14:56:37 by mel-omar         ###   ########.fr       */
+/*   Updated: 2021/05/28 18:51:40 by mel-omar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ void	checker_state(t_philosopher *ph)
 		}
 		if (count_finished_philosophers(ph))
 			break ;
-		usleep(1000);
 	}
 }
 

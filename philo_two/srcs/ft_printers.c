@@ -6,7 +6,7 @@
 /*   By: mel-omar <mel-omar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 21:35:35 by mel-omar          #+#    #+#             */
-/*   Updated: 2021/05/27 15:07:23 by mel-omar         ###   ########.fr       */
+/*   Updated: 2021/05/27 16:49:51 by mel-omar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,14 @@ void	ft_putstr(const char *str)
 	{
 		ft_putc(*str);
 		str++;
+	}
+}
+
+void	ft_print_error(const char *s)
+{
+	while (*s)
+	{
+		write (2, s, 1);
+		s++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: mel-omar <mel-omar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/26 16:58:39 by mel-omar          #+#    #+#             */
-/*   Updated: 2021/05/27 14:45:40 by mel-omar         ###   ########.fr       */
+/*   Updated: 2021/05/27 17:10:45 by mel-omar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,21 +17,19 @@ int	isdigits(char c)
 	return (0);
 }
 
-unsigned long long	string2number(const char *string)
+long long	string2number(const char *string)
 {
-	unsigned long long	number;
-	int					sign;
+	long long	number;
 
 	number = 0;
-	sign = 1;
 	if (!string)
 		return (0);
 	else if (*string == '+')
 		string++;
 	while (isdigits(*string))
 	{
-		number = (number * 10) + (int)(*string - 48);
+		number = (number * 10) + (long long)(*string - 48);
 		string++;
 	}
-	return (sign * number);
+	return (number);
 }

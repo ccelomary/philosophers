@@ -6,12 +6,12 @@
 /*   By: mel-omar <mel-omar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/25 14:05:12 by mel-omar          #+#    #+#             */
-/*   Updated: 2021/05/27 14:28:06 by mel-omar         ###   ########.fr       */
+/*   Updated: 2021/05/28 17:55:56 by mel-omar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosophers.h"
-
+#include <stdio.h>
 static long long	difference_ab(long long a, long long b)
 {
 	return (a - b);
@@ -41,10 +41,10 @@ static int	check_someone_died(t_philosopher *ph)
 	iter = -1;
 	while (++iter < ph->shared_data->arguments[NUMBER_OF_PHILO])
 	{
-		if (ph[iter].state != EATING
-			&& difference_ab(get_time(),
+		if (ph[iter].state != EATING && difference_ab(get_time(),
 				ph[iter].last_time_eat)
-			> ph->shared_data->arguments[TIME_TO_DIE])
+			> ph->shared_data->arguments[TIME_TO_DIE]
+		)
 		{
 			death_statement(&ph[iter]);
 			return (1);
@@ -57,20 +57,19 @@ void	checker_state(t_philosopher *ph)
 {
 	while (1)
 	{
+		if (count_finished_philosophers(ph))
+			break ;
 		if (check_someone_died(ph))
 		{
 			ph->shared_data->someone_died = 1;
 			break ;
 		}
-		if (count_finished_philosophers(ph))
-			break ;
-		usleep(1000);
 	}
 }
 
 void	check_time(t_philosopher *ph, long long t, long long duration, int type)
 {
-	usleep(ph->shared_data->arguments[type] - 30000);
-	while ((get_time() - t) * 1000 < duration)
-		;
+	usleep(ph->shared_data->arguments[type] - 15000);
+	while ((get_time() - t) < duration)
+	;
 }

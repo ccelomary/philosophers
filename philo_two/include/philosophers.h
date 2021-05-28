@@ -6,7 +6,7 @@
 /*   By: mel-omar <mel-omar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/26 15:22:05 by mel-omar          #+#    #+#             */
-/*   Updated: 2021/05/27 14:54:42 by mel-omar         ###   ########.fr       */
+/*   Updated: 2021/05/27 16:51:46 by mel-omar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ typedef struct s_philosopher
 }								t_philosopher;
 
 int					isdigits(char c);
+void				ft_print_error(const char *s);
 int					string2number(const char *string);
 long long			get_time(void);
 void				ft_putc(char c);

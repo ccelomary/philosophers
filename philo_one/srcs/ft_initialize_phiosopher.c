@@ -6,7 +6,7 @@
 /*   By: mel-omar <mel-omar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 21:23:26 by mel-omar          #+#    #+#             */
-/*   Updated: 2021/05/27 14:40:51 by mel-omar         ###   ########.fr       */
+/*   Updated: 2021/05/28 16:23:23 by mel-omar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	init_philosopher(t_philosopher *philo,
 {
 	philo->id = id;
 	philo->time_eat = 0;
-	philo->last_time_eat = get_time();
+	philo->last_time_eat = shared_data->program_start;
 	philo->state = THINKING;
 	philo->shared_data = shared_data;
 }
