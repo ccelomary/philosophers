@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mel-omar <mel-omar@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mel-omar <mel-omar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/26 15:22:05 by mel-omar          #+#    #+#             */
-/*   Updated: 2021/05/29 00:32:16 by mel-omar         ###   ########.fr       */
+/*   Updated: 2021/05/29 21:49:49 by mel-omar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ typedef struct s_philosopher
 }								t_philosopher;
 
 int					isdigits(char c);
-long long 			convert(long long micors);
+long long			convert(long long micors);
 void				ft_print_error(const char *s);
 int					string2number(const char *string);
 long long			get_time(void);

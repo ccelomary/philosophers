@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_checkers.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mel-omar <mel-omar@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mel-omar <mel-omar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/25 14:05:12 by mel-omar          #+#    #+#             */
-/*   Updated: 2021/05/29 00:17:48 by mel-omar         ###   ########.fr       */
+/*   Updated: 2021/05/29 20:49:34 by mel-omar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,18 +58,16 @@ void	checker_state(t_philosopher *ph)
 	while (1)
 	{
 		if (check_someone_died(ph))
-		{
-			ph->shared_data->someone_died = 1;
 			break ;
-		}
 		if (count_finished_philosophers(ph))
 			break ;
+		usleep(10);
 	}
 }
 
 void	check_time(t_philosopher *ph, long long t, long long duration, int type)
 {
-	usleep(ph->shared_data->arguments[type] - 30000);
+	usleep(ph->shared_data->arguments[type] - 20000);
 	while ((get_time() - t) < duration)
 		;
 }

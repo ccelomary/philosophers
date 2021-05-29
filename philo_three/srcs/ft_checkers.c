@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_checkers.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mel-omar <mel-omar@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mel-omar <mel-omar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/25 14:05:12 by mel-omar          #+#    #+#             */
-/*   Updated: 2021/05/27 15:48:56 by mel-omar         ###   ########.fr       */
+/*   Updated: 2021/05/29 21:39:16 by mel-omar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ long long	difference_ab(long long a, long long b)
 void	check_time(t_philosopher *ph, long long t,
 	long long duration, int type)
 {
-	usleep(ph->shared_data->arguments[type] - 30000);
-	while ((get_time() - t) * 1000 < duration)
+	usleep(ph->shared_data->arguments[type] - 20000);
+	while ((get_time() - t) < duration)
 		;
 }
 
@@ -42,8 +42,8 @@ void	check_philosopher(t_philosopher *ph)
 			pthread_join(ph->thread, NULL);
 			exit(DONE);
 		}
-		usleep(1000);
-	}	
+		usleep(90);
+	}
 }
 
 void	wait4process(t_philosopher *ph)

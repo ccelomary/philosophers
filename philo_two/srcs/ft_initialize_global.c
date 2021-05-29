@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_initialize_global.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mel-omar <mel-omar@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mel-omar <mel-omar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 21:09:50 by mel-omar          #+#    #+#             */
-/*   Updated: 2021/05/29 00:34:45 by mel-omar         ###   ########.fr       */
+/*   Updated: 2021/05/29 21:50:43 by mel-omar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ int	set_arguments(struct s_global *shared_data, int argc, char *argv[])
 	iterator = 0;
 	while (++iterator < argc)
 	{
-		shared_data->arguments[iterator - 1] = (int)string2number(argv[iterator]);
+		shared_data->arguments[iterator - 1]
+			= (int)string2number(argv[iterator]);
 		if ((shared_data->arguments[iterator - 1]) <= 0)
 			return (1);
 	}
@@ -31,7 +32,7 @@ int	set_arguments(struct s_global *shared_data, int argc, char *argv[])
 
 int	init_global_var(struct s_global *shared_data, int argc, char *argv[])
 {
-	memset(shared_data->arguments, 0, sizeof(int) * 5);
+	memset(shared_data->arguments, 0, sizeof(long long) * 5);
 	if (set_arguments(shared_data, argc, argv))
 		return (1);
 	sem_unlink(FORKS_NAME);

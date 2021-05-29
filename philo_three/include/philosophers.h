@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mel-omar <mel-omar@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mel-omar <mel-omar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/26 15:22:05 by mel-omar          #+#    #+#             */
-/*   Updated: 2021/05/27 16:50:45 by mel-omar         ###   ########.fr       */
+/*   Updated: 2021/05/29 18:57:18 by mel-omar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ int					isdigits(char c);
 int					string2number(const char *string);
 long long			difference_ab(long long a, long long b);
 void				ft_print_error(const char *s);
+long long			convert(long long micors);
 long long			get_time(void);
 void				ft_putc(char c);
 void				ft_putnbr(unsigned int number);
@@ -75,7 +76,7 @@ void				eat_statement(t_philosopher *philo);
 void				think_statement(t_philosopher *philo);
 void				sleep_statement(t_philosopher *philo);
 void				fork_statement(t_philosopher *philo);
-void				init_global_var(struct s_global *sd,
+int					init_global_var(struct s_global *sd,
 						int argc, char *argv[]);
 void				death_statement(t_philosopher *philo);
 t_philosopher		*init_philosophers(struct s_global *sd);

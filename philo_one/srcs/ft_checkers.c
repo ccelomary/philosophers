@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   ft_checkers.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mel-omar <mel-omar@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mel-omar <mel-omar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/25 14:05:12 by mel-omar          #+#    #+#             */
-/*   Updated: 2021/05/28 17:55:56 by mel-omar         ###   ########.fr       */
+/*   Updated: 2021/05/29 21:40:20 by mel-omar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosophers.h"
-#include <stdio.h>
+
 static long long	difference_ab(long long a, long long b)
 {
 	return (a - b);
@@ -60,16 +60,14 @@ void	checker_state(t_philosopher *ph)
 		if (count_finished_philosophers(ph))
 			break ;
 		if (check_someone_died(ph))
-		{
-			ph->shared_data->someone_died = 1;
 			break ;
-		}
+		usleep(10);
 	}
 }
 
 void	check_time(t_philosopher *ph, long long t, long long duration, int type)
 {
-	usleep(ph->shared_data->arguments[type] - 15000);
+	usleep(ph->shared_data->arguments[type] - 20000);
 	while ((get_time() - t) < duration)
-	;
+		;
 }

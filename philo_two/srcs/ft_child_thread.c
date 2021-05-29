@@ -6,11 +6,12 @@
 /*   By: mel-omar <mel-omar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/25 14:13:13 by mel-omar          #+#    #+#             */
-/*   Updated: 2021/05/27 16:12:33 by mel-omar         ###   ########.fr       */
+/*   Updated: 2021/05/29 15:05:22 by mel-omar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosophers.h"
+#include <stdio.h>
 
 static void	eating_operation(t_philosopher *ph, long long eat_time)
 {
@@ -67,5 +68,6 @@ void	*philosopher_function(void *philo)
 		sleep_statement(ph);
 		check_time(ph, get_time(), ueat_sleep[1], TIME_TO_SLEEP);
 	}
+	sem_post(ph->shared_data->protect_forks);
 	return (NULL);
 }
