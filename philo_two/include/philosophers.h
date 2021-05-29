@@ -6,7 +6,7 @@
 /*   By: mel-omar <mel-omar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/26 15:22:05 by mel-omar          #+#    #+#             */
-/*   Updated: 2021/05/27 16:51:46 by mel-omar         ###   ########.fr       */
+/*   Updated: 2021/05/29 00:32:16 by mel-omar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define PHILOSOPHERS_H
 # include <pthread.h>
 # include <stdlib.h>
+# include <fcntl.h>
 # include <unistd.h>
 # include <semaphore.h>
 # include <string.h>
@@ -58,6 +59,7 @@ typedef struct s_philosopher
 }								t_philosopher;
 
 int					isdigits(char c);
+long long 			convert(long long micors);
 void				ft_print_error(const char *s);
 int					string2number(const char *string);
 long long			get_time(void);
@@ -69,7 +71,7 @@ void				eat_statement(t_philosopher *philo);
 void				think_statement(t_philosopher *philo);
 void				sleep_statement(t_philosopher *philo);
 void				fork_statement(t_philosopher *philo);
-void				init_global_var(struct s_global *sd,
+int					init_global_var(struct s_global *sd,
 						int argc, char *argv[]);
 void				death_statement(t_philosopher *philo);
 t_philosopher		*init_philosophers(struct s_global *sd);

@@ -8,8 +8,8 @@ OBJECTS = srcs/main.o srcs/ft_initialize_global.o srcs/ft_initialize_phiosopher.
 	srcs/ft_printers2.o srcs/ft_printers.o \
 	srcs/ft_timer.o srcs/string2number.o srcs/ft_checkers.o \
 	srcs/ft_child_thread.o srcs/ft_error_checker.o
-FLAGS = -Wall -Wextra -Werror
-LIBRARIES =  -lpthread
+FLAGS = -Wall -Wextra -Werror -fsanitize=address
+LIBRARIES =  -lpthread -lrt
 
 all: $(NAME)
 $(NAME):

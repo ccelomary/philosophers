@@ -6,7 +6,7 @@
 /*   By: mel-omar <mel-omar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/25 14:05:12 by mel-omar          #+#    #+#             */
-/*   Updated: 2021/05/28 18:51:40 by mel-omar         ###   ########.fr       */
+/*   Updated: 2021/05/29 00:17:48 by mel-omar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,6 @@ void	checker_state(t_philosopher *ph)
 void	check_time(t_philosopher *ph, long long t, long long duration, int type)
 {
 	usleep(ph->shared_data->arguments[type] - 30000);
-	while ((get_time() - t) * 1000 < duration)
+	while ((get_time() - t) < duration)
 		;
 }

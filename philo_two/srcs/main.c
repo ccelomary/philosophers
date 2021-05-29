@@ -6,7 +6,7 @@
 /*   By: mel-omar <mel-omar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/26 17:04:42 by mel-omar          #+#    #+#             */
-/*   Updated: 2021/05/28 18:43:57 by mel-omar         ###   ########.fr       */
+/*   Updated: 2021/05/29 00:34:29 by mel-omar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,17 +42,16 @@ int	main(int argc, char *argv[])
 	struct s_global		*shared_data;
 
 	shared_data = malloc(sizeof(struct s_global));
-	if (check4errors(argc, argv))
+	if (check4errors(argc, argv)
+	|| init_global_var(shared_data, argc, argv))
 	{
 		ft_print_error("arguments error\n");
 		return (1);
 	}
-	init_global_var(shared_data, argc, argv);
 	ph = init_philosophers(shared_data);
 	run_philosophers(ph);
 	checker_state(ph);
-	if (!shared_data->someone_died)
-		wait4philosophers(ph);
+	wait4philosophers(ph);
 	free(ph);
 	free(shared_data);
 	return (0);
